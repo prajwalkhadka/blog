@@ -4,7 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Socialite;
+use Socialite; 
+use App\user;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 
 class LoginController extends Controller
 {
@@ -43,6 +48,7 @@ class LoginController extends Controller
         return Socialite::driver($provider)->redirect();
     }
 
+
     /**
      * Obtain the user information from GitHub.
      *
@@ -52,6 +58,31 @@ class LoginController extends Controller
     {
         $user = Socialite::driver($provider)->stateless()->user();
 
-        dd($user);
-    }
+        //dd($user);
+         $finduser=User::where('email',$user->getEmail())->first();
+         if($finduser){
+            Auth::login($finduser);
+         }
+         else{
+            if($user->getName()){
+                $username= $user->getName();
+            }
+            else{
+                $username= $user->getNickname();
+            }
+            $newuser=User::create([
+
+            'name' =>$username,
+            'email' =>$user->getEmail(),
+            'image' =>$user->getAvatar(),
+            'provider'=>$provider,
+            'password'=>Hash::make(str_random($length=16)),
+            "email_verified_at"=>Carbon::now(),
+
+            ]);
+            Auth::login($newuser);
+         }
+         return redirect()->route('home');
 }
+    }
+   
