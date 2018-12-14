@@ -22,3 +22,6 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('verified'
 // social login
 Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
+Route::view('/admin','admin.dashboard');
+Route::view('/about','about');
+// Route::view('/about','about');
