@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\Http\Middleware\CheckAdmin;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,6 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('verified'
 // social login
 Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
-Route::view('/admin','admin.dashboard');
-Route::view('/about','about');
+// Route::view('/admin','admin.dashboard');
 // Route::view('/about','about');
+// Route::view('/about','about');
+Route::get('/admin', 'AdminController@index')->name('admin')->middleware('verified','checkadmin');
