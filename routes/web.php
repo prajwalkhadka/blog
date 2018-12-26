@@ -37,6 +37,14 @@ Route::get('post/edit/{id}','PostController@edit')->name('post.edit');
 Route::get('post/show/{id}','PostController@show')->name('post.show');
 Route::post('post/update/{id}','PostController@update')->name('post.update');
 Route::delete('post/delete/{id}','PostController@destroy')->name('post.delete');
+//category
+// Route::post('category','CategoryController@store')->name('category.store');
+// Route::get('category/create','CategoryController@create')->name('category.create');
+// Route::get('category/index','CategoryController@index')->name('category.index');
+// Route::get('category/edit/{id}','CategoryController@edit')->name('category.edit');
+// Route::get('category/show/{id}','CategoryController@show')->name('category.show');
+// Route::post('category/update/{id}','CategoryController@update')->name('category.update');
+// Route::delete('category/delete/{id}','CategoryController@destroy')->name('category.delete');
 Route::resource('category','CategoryController');
 
 });

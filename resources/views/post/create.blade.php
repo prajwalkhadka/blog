@@ -18,6 +18,10 @@
     <input type="text" class="form-control" id="exampleInputTitle1" aria-describedby="titleHelp" placeholder="Enter title" name="title">
   </div>
   <div class="form-group">
+    <label for="exampleInputEmail1">Category</label>
+  {!! Form::select('category',$cats,null,['placeholder'=>'select category','class'=>'form-control']) !!}
+  </div>
+  <div class="form-group">
     <label for="exampleInputBody1">Body</label>
     <textarea name="body" rows="10" cols="20" type="text" class="form-control" id="exampleInputBody1" placeholder="body" >
  </textarea> 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Post;
 use Auth;
 use Validator;
+use App\Category;
 
 class PostController extends Controller
 {
@@ -40,7 +41,9 @@ class PostController extends Controller
     public function create()
     {
         //
-        return view('post.create');
+        $cat=Category::pluck('title','id')->toArray();
+        //dd($cat);
+        return view('post.create')->with('cats',$cat);
     }
 
     /**
@@ -51,18 +54,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
-   
+        
         $request->validate([
             'title'=>'required|max:255',
+            'category'=>'required',
             'body'=>'required',
             'image'=>'mimes:jpeg,bmp,png,jpg',
 
         ]);
         $data=new Post();
         $data->title=$request->get('title');
+        $data->cat_id=$request->get('category');
         $data->body=$request->get('body');
         $data->user_id=Auth::id();
+
 
         if($request->hasFile('image')){
             $image=$request->file('image');
@@ -102,8 +107,11 @@ class PostController extends Controller
     public function edit($id)
     {
         //
-        $data=Post::find($id);
-        return view('post.edit')->with('data',$data);
+        $data=Post::findorfail($id);
+         $cat=Category::pluck('title','id')->toArray();
+         $cats=key(Category::where('id',$data->cat_id)->pluck('title','id')->toArray());
+        return view('post.edit')->with('data',$data)->with('cat',$cat)->with('cats',$cats);
+
     }
 
     /**
@@ -119,11 +127,13 @@ class PostController extends Controller
        $request->validate([
             'title'=>'required|max:255',
             'body'=>'required',
+            'category'=>'required',
             'image'=>'mimes:jpeg,bmp,png,jpg',
 
         ]);
         $data= Post::findorfail($id);
         $data->title=$request->get('title');
+        $data->cat_id=$request->get('category');
         $data->body=$request->get('body');
         $data->user_id=Auth::id();
 

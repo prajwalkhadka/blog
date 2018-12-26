@@ -14,8 +14,11 @@
   @csrf
   <div class="form-group">
     <label for="exampleInputEmail1">Title</label>
-    <input type="text" class="form-control" name="title" value="{{ $data->title }}">
-    
+    <input type="text" class="form-control" name="title" value="{{ $data->title }}">  
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Category</label>
+  {!! Form::select('category',$cat,$cats,['placeholder'=>'select category','class'=>'form-control']) !!}
   </div>
   <div class="form-group">
     <label for="exampleInputBody1">Body</label>
